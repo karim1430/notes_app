@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/widgets/add_note_from_state.dart';
 import 'package:notes_app/widgets/constant.dart';
 import 'package:notes_app/widgets/custom_button.dart';
 
@@ -12,27 +13,7 @@ class AddFloatingActionButton extends StatelessWidget {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              hint: 'Tilte',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              hint: "Content",
-              maxLine: 5,
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            CustomBotton(),
-          ],
-        ),
+        child: AddNoteFromState(),
       ),
     );
   }
