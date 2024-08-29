@@ -9,7 +9,8 @@ class AddFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return BlocProvider(
+      create: (context) => AddNoteCubit(),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: BlocConsumer<AddNoteCubit, AddNoteState>(
@@ -19,12 +20,18 @@ class AddFloatingActionButton extends StatelessWidget {
             }
             if (state is AddNoteSuccess) {
               Navigator.pop(context);
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text('done added note')));
             }
           },
           builder: (context, state) {
-            return ModalProgressHUD(
-                inAsyncCall: state is AddNoteLoading ? true : false,
-                child: const AddNoteFromState());
+            return AbsorbPointer(
+              // make stop screen as AddNoteloading
+              absorbing: state is AddNoteLoading ? true : false,
+              child: SingleChildScrollView(
+                child: const AddNoteFromState(),
+              ),
+            );
           },
         ),
       ),
