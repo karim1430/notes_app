@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/edit_notes_view.dart';
 
 class NotesItem extends StatelessWidget {
-  const NotesItem({super.key});
+  const NotesItem({super.key, required this.note});
+
+  final NoteModel note;
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +26,21 @@ class NotesItem extends StatelessWidget {
           children: [
             ListTile(
               title: Text(
-                'Flutter Tips',
+                note.title,
                 style: TextStyle(color: Colors.black, fontSize: 32),
               ),
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 15),
-                child: Text('Builed your career with karim salah',
+                child: Text(note.subTitle,
                     style: TextStyle(color: Colors.black.withOpacity(.3))),
               ),
               trailing: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    note.delete();
+                    BlocProvider.of<NotesCubit>(context).fetchNotesCubit();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('done deleted note')));
+                  },
                   icon: Icon(
                     Icons.delete,
                     color: Colors.black,
@@ -39,7 +49,7 @@ class NotesItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 40, bottom: 20),
               child: Text(
-                'May,21.2022',
+                note.date,
                 style: TextStyle(color: Colors.black.withOpacity(.3)),
               ),
             ),
